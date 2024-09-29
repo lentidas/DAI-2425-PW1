@@ -10,9 +10,7 @@ package ch.heigvd.dai;
 
 import ch.heigvd.dai.exceptions.BmpFileException;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -28,6 +26,11 @@ public class BmpFile
 			"IC",
 			"PT"
 	};
+	public static final int MIN_MESSAGE_LENGTH = 1;
+	public static final int MAX_MESSAGE_LENGTH = 0x1FFFFFFF; // 29 bits. Last 3 bits are for bits-per-byte
+	public static final int MIN_BITS_PER_BYTE = 1;
+	public static final int MAX_BITS_PER_BYTE = 8;
+	private static final int BITS_PER_BYTE_SHIFT = 29;
 	private static final int MAGIC_BYTES_LEN = 2;
 	private static final int HEADER_FIELDS_LEN = 4;
 	private static final int HEADER_LEN = MAGIC_BYTES_LEN + HEADER_FIELDS_LEN * 3;
@@ -36,25 +39,30 @@ public class BmpFile
 	private int _fileSize; // BMP files, as per their header, cannot be bigger than 2^32 bytes
 	private int _pixelArrayOffset;
 	private int _messageLength;
+	private int _bitsPerByte;
+	private final String _bmpFilePath;
 
 	/**
 	 * Parses and splits a bitmap file into useful data
-	 * @param bmpFile Path to bitmap file
+	 *
+	 * @param bmpFilePath Path to bitmap file
 	 * @throws BmpFileException Error raised in case the bitmap file is not valid
-	 * @throws IOException IO error when handling bitmap file
+	 * @throws IOException      IO error when handling bitmap file
 	 */
-	public BmpFile(String bmpFile) throws BmpFileException, IOException
+	public BmpFile(String bmpFilePath) throws BmpFileException, IOException
 	{
-		try (FileInputStream bmpInputStream = new FileInputStream(bmpFile);
+		try (FileInputStream bmpInputStream = new FileInputStream(bmpFilePath);
 		     BufferedInputStream bufferedInputStream = new BufferedInputStream(bmpInputStream))
 		{
 			readBitmapHeader(bufferedInputStream);
 			readPixelArray(bufferedInputStream);
+			_bmpFilePath = bmpFilePath;
 		}
 	}
 
 	/**
 	 * Returns whether this file has a hidden message inside
+	 *
 	 * @return True if a message is present, false if not
 	 */
 	public boolean hasMessage()
@@ -64,6 +72,7 @@ public class BmpFile
 
 	/**
 	 * Returns the hidden message's length
+	 *
 	 * @return Hidden message's length if one is present, or 0 if no message is hidden
 	 */
 	public int getMessageLength()
@@ -72,17 +81,98 @@ public class BmpFile
 	}
 
 	/**
+	 * Returns the number of bits belonging to the hidden message per data byte
+	 *
+	 * @return Number of bits per data byte
+	 */
+	public int getBitsPerByte()
+	{
+		return _bitsPerByte;
+	}
+
+	/**
+	 * Changes the pixel array data, hidden message length, and number of bits per data byte
+	 *
+	 * @param data          New pixel array
+	 * @param messageLength New message length
+	 * @param bitsPerByte   Number of bits per data byte
+	 */
+	public void setData(byte[] data, int messageLength, int bitsPerByte)
+	{
+		if (data.length != _pixelArray.length)
+		{
+			throw new BmpFileException("Incoherent data length");
+		}
+
+		if (messageLength > data.length)
+		{
+			throw new BmpFileException("Incoherent message length");
+		}
+
+		// We only accept multiples of 2
+		if (bitsPerByte != 1 && bitsPerByte % 2 != 0)
+		{
+			throw new BmpFileException("Invalid bits per byte");
+		}
+
+		_pixelArray = data.clone();
+		_bitsPerByte = bitsPerByte;
+		_messageLength = messageLength;
+	}
+
+	/**
 	 * Returns the pixel array that was read from the BMP file
-	 * @implNote Function returns the actual array, and not a copy. This makes it easier to edit the array and save it
+	 *
 	 * @return Pixel array
+	 * @implNote Function returns a copy of the pixel array
 	 */
 	public byte[] getPixelArray()
 	{
-		return _pixelArray;
+		return _pixelArray.clone();
+	}
+
+	/**
+	 * Dumps the pixel array into the provided output file
+	 *
+	 * @param outputFilePath Path to the output file. Must not be the same file as the input file
+	 * @throws IOException Raised in case an error occurs with either the input or output file
+	 * @implNote Original input file must still exist
+	 */
+	public void saveFile(String outputFilePath) throws IOException
+	{
+		try (FileInputStream bmpInputStream = new FileInputStream(_bmpFilePath);
+		     BufferedInputStream bufferedInputStream = new BufferedInputStream(bmpInputStream);
+		     FileOutputStream bmpOutputStream = new FileOutputStream(outputFilePath);
+		     BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(bmpOutputStream))
+		{
+			// Write unaltered header (magic bytes + file size)
+			bufferedOutputStream.write(bufferedInputStream.readNBytes(MAGIC_BYTES_LEN + HEADER_FIELDS_LEN));
+
+			// Write hidden message length
+			ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_FIELDS_LEN);
+			byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+			int rawBitsAndLen = ((_bitsPerByte - 1) << BITS_PER_BYTE_SHIFT) | _messageLength;
+			byteBuffer.putInt(rawBitsAndLen);
+			bufferedOutputStream.write(byteBuffer.array());
+
+			// Compensate the fact we didn't read from the input file
+			bufferedInputStream.skipNBytes(HEADER_FIELDS_LEN);
+
+			// Data offset
+			bufferedOutputStream.write(bufferedInputStream.readNBytes(HEADER_FIELDS_LEN));
+
+			// Additional headers
+			bufferedOutputStream.write(bufferedInputStream.readNBytes(_fileSize - _pixelArray.length - HEADER_LEN));
+
+			// Write full pixel array
+			bufferedOutputStream.write(_pixelArray);
+			bufferedOutputStream.flush();
+		}
 	}
 
 	/**
 	 * Checks whether the provided magic bytes are valid for a bitmap file
+	 *
 	 * @param magicBytes Buffer containing the magic bytes
 	 * @return True if magic is valid, false if not
 	 */
@@ -108,6 +198,7 @@ public class BmpFile
 
 	/**
 	 * Reads and checks the file's header
+	 *
 	 * @param fileBuffer Buffer to read from
 	 * @throws BmpFileException Thrown in case the function fails to read the file's header
 	 */
@@ -122,8 +213,8 @@ public class BmpFile
 		try
 		{
 			// Check magic bytes
-			if (MAGIC_BYTES_LEN != fileBuffer.read(magicBytes, 0, MAGIC_BYTES_LEN) 
-			|| !isValidMagic(magicBytes))
+			if (MAGIC_BYTES_LEN != fileBuffer.read(magicBytes, 0, MAGIC_BYTES_LEN)
+					|| !isValidMagic(magicBytes))
 			{
 				throw new BmpFileException("Invalid magic bytes");
 			} /* if */
@@ -137,7 +228,15 @@ public class BmpFile
 			byteBuffer.rewind();
 			byteBuffer.put(fileBuffer.readNBytes(HEADER_FIELDS_LEN));
 			byteBuffer.rewind();
-			_messageLength = byteBuffer.getInt();
+			int rawBitsAndLength = byteBuffer.getInt();
+			_messageLength = rawBitsAndLength & MAX_MESSAGE_LENGTH;
+			_bitsPerByte = rawBitsAndLength >> BITS_PER_BYTE_SHIFT;
+			// Happens when MSb is 1 (sign bit)
+			if (_bitsPerByte < 0)
+			{
+				_bitsPerByte *= -1;
+			}
+			_bitsPerByte += 1; // Compensate for the fact we have a range from 1 to 8
 			_hasMessage = _messageLength > 0;
 
 			// Get the offset to start reading the pixel array from
@@ -156,6 +255,7 @@ public class BmpFile
 
 	/**
 	 * Reads the bitmap file's pixel array
+	 *
 	 * @param fileBuffer Buffer to read from
 	 * @throws BmpFileException Thrown in case the function fails to read the pixel array
 	 */
