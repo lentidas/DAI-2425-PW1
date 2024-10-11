@@ -8,7 +8,9 @@ package ch.heigvd.dai;
 
 import ch.heigvd.dai.exceptions.BmpFileException;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
