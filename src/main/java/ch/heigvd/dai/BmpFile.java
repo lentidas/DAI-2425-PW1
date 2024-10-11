@@ -1,7 +1,7 @@
 /**
- * @brief Provides a class that is able to parse a BMP file and split it into more interesting data
- * @class DAI
- * @pw 1
+ * @brief   Provides a class that is able to parse a BMP file and split it into more interesting data
+ * @class   DAI
+ * @pw      1
  * @authors Pedro Alves da Silva, Gonçalo Heleno Carvalheiro
  * Copyright (c) 2024
  */
@@ -9,8 +9,9 @@
 package ch.heigvd.dai;
 
 import ch.heigvd.dai.exceptions.BmpFileException;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,12 +20,12 @@ import java.util.Arrays;
 public class BmpFile
 {
 	private static final String[] VALID_MAGICS = {
-			"BM",
-			"BA",
-			"CI",
-			"CP",
-			"IC",
-			"PT"
+		"BM",
+		"BA",
+		"CI",
+		"CP",
+		"IC",
+		"PT"
 	};
 	public static final int MIN_MESSAGE_LENGTH = 1;
 	public static final int MAX_MESSAGE_LENGTH = 0x1FFFFFFF; // 29 bits. Last 3 bits are for bits-per-byte
@@ -179,20 +180,20 @@ public class BmpFile
 	private boolean isValidMagic(byte[] magicBytes)
 	{
 		boolean validMagic = false;
-		for (String acceptedMagic : VALID_MAGICS)
+		for(String acceptedMagic : VALID_MAGICS)
 		{
-			if (Arrays.equals(acceptedMagic.getBytes(),
-					0,
-					MAGIC_BYTES_LEN,
-					magicBytes,
-					0,
-					MAGIC_BYTES_LEN))
+			if(Arrays.equals(acceptedMagic.getBytes(),
+						     0,
+						     MAGIC_BYTES_LEN,
+						     magicBytes,
+							 0,
+							 MAGIC_BYTES_LEN))
 			{
 				validMagic = true;
 				break;
 			} /* if */
 		} /* for */
-
+		
 		return validMagic;
 	}
 
@@ -206,15 +207,15 @@ public class BmpFile
 	{
 		byte[] magicBytes = new byte[MAGIC_BYTES_LEN];
 		ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_FIELDS_LEN);
-
+		
 		// Bitmap headers are little endian
 		byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
 		try
 		{
 			// Check magic bytes
-			if (MAGIC_BYTES_LEN != fileBuffer.read(magicBytes, 0, MAGIC_BYTES_LEN)
-					|| !isValidMagic(magicBytes))
+			if(MAGIC_BYTES_LEN != fileBuffer.read(magicBytes, 0, MAGIC_BYTES_LEN)
+			|| !isValidMagic(magicBytes))
 			{
 				throw new BmpFileException("Invalid magic bytes");
 			} /* if */
@@ -244,10 +245,12 @@ public class BmpFile
 			byteBuffer.put(fileBuffer.readNBytes(HEADER_FIELDS_LEN));
 			byteBuffer.rewind();
 			_pixelArrayOffset = byteBuffer.getInt();
-		} catch (BufferUnderflowException e)
+		}
+		catch (BufferUnderflowException e)
 		{
 			throw new BmpFileException("Not enough bytes to read the entire header");
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			throw new BmpFileException(e.getMessage());
 		} /* try */
@@ -266,20 +269,22 @@ public class BmpFile
 			// Length of all headers, mandatory and optional
 			int expectedPixelArraySize = _fileSize - _pixelArrayOffset;
 			_pixelArray = new byte[expectedPixelArraySize];
-
+			
 			// Skip to pixel array start
 			fileBuffer.skipNBytes(_pixelArrayOffset - HEADER_LEN);
-			if (expectedPixelArraySize != fileBuffer.read(_pixelArray,
-					0,
-					expectedPixelArraySize))
+			if(expectedPixelArraySize != fileBuffer.read(_pixelArray,
+														 0,
+														 expectedPixelArraySize))
 			{
 				_pixelArray = null;
 				throw new BufferUnderflowException();
 			} /* if */
-		} catch (BufferUnderflowException e)
+		}
+		catch (BufferUnderflowException e)
 		{
 			throw new BmpFileException("Not enough bytes to read the pixel array");
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			throw new BmpFileException(e.getMessage());
 		} /* try */
