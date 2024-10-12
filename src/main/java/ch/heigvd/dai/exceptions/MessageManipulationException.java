@@ -8,10 +8,8 @@
 
 package ch.heigvd.dai.exceptions;
 
-public class MessageManipulationException extends IllegalArgumentException
-{
-	public MessageManipulationException(String s)
-	{
-		super(String.format("Exception thrown while manipulating message: %s", s));
-	}
+public class MessageManipulationException extends IllegalArgumentException {
+  public MessageManipulationException(String s) {
+    super(String.format("Exception thrown while manipulating message: %s", s));
+  }
 }
