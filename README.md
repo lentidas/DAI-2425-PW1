@@ -11,21 +11,24 @@ A Java CLI application that allows you to hide and retrieve files hidden in bitm
 
 ## Authors
 
-- Pedro Alves da Silva (@PedroAS7)
-- Gonçalo Carvalheiro Heleno (@lentidas)
+- Pedro Alves da Silva ([@PedroAS7](https://github.com/PedroAS7))
+- Gonçalo Carvalheiro Heleno ([@lentidas](https://github.com/lentidas))
 
 ## Usage
 
-// TODO
+// TODO \
 
 ## Examples of output
 
-// TODO
-// TODO Add comment saying that files are different because hash is different
-// TODO Same as before but to say message before and after has the same hash
+// TODO \
+// TODO Add comment saying that files are different because hash is different \
+// TODO Same as before but to say message before and after has the same hash \
 
 ## Documentation
 
-// TODO Point to the Javadoc documentation 
+// TODO Point to the Javadoc documentation \
 
+## Contributing
 
+// TODO Explain the release process \
+// TODO Explain the Conventional commits \
