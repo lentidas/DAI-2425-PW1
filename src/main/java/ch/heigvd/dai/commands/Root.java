@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import picocli.CommandLine;
 
 @CommandLine.Command(
-    description = "",
+    description = "shadow - a CLI tool to hide files inside BMP images",
     version = "0.0.1",
     subcommands = {
       Hide.class,
