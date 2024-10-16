@@ -1,9 +1,21 @@
-/**
- * @brief Provides a class that is able to parse a BMP file and split it into more interesting data
- * @class DAI
- * @pw 1
- * @authors Pedro Alves da Silva, Gonçalo Heleno Carvalheiro Copyright (c) 2024
+/*
+ * shadow - a CLI tool to hide files inside BMP images
+ * Copyright (C) 2024 Pedro Alves da Silva, Gonçalo Carvalheiro Heleno
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package ch.heigvd.dai.utilities;
 
 import ch.heigvd.dai.exceptions.BmpFileException;
@@ -17,7 +29,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
+/**
+ * Implements the required logic to parse a bitmap file and modify its content.
+ *
+ * @author Pedro Alves da Silva
+ * @author Gonçalo Carvalheiro Heleno
+ */
 public class BmpFile {
+
   private static final String[] VALID_MAGICS = {"BM", "BA", "CI", "CP", "IC", "PT"};
   public static final int MIN_MESSAGE_LENGTH = 1;
   public static final int MAX_MESSAGE_LENGTH =
@@ -37,11 +56,11 @@ public class BmpFile {
   private final String _bmpFilePath;
 
   /**
-   * Parses and splits a bitmap file into useful data
+   * Parses and splits a bitmap file into useful data.
    *
-   * @param bmpFilePath Path to bitmap file
-   * @throws BmpFileException Error raised in case the bitmap file is not valid
-   * @throws IOException IO error when handling bitmap file
+   * @param bmpFilePath a {@link String} with the path to a bitmap file
+   * @throws BmpFileException if the bitmap file is not valid
+   * @throws IOException if there is an IO error when handling the bitmap file
    */
   public BmpFile(String bmpFilePath) throws BmpFileException, IOException {
     try (FileInputStream bmpInputStream = new FileInputStream(bmpFilePath);
@@ -53,16 +72,16 @@ public class BmpFile {
   }
 
   /**
-   * Returns whether this file has a hidden message inside
+   * Returns whether this file has a hidden message inside.
    *
-   * @return True if a message is present, false if not
+   * @return {@code true} if a message is present, {@code false} if not
    */
   public boolean hasMessage() {
     return _hasMessage;
   }
 
   /**
-   * Returns the hidden message's length
+   * Returns the hidden message's length.
    *
    * @return Hidden message's length if one is present, or 0 if no message is hidden
    */
@@ -71,20 +90,20 @@ public class BmpFile {
   }
 
   /**
-   * Returns the number of bits belonging to the hidden message per data byte
+   * Returns the number of bits belonging to the hidden message per data byte.
    *
-   * @return Number of bits per data byte
+   * @return an {@code int} with the number of bits per data byte
    */
   public int getBitsPerByte() {
     return _bitsPerByte;
   }
 
   /**
-   * Changes the pixel array data, hidden message length, and number of bits per data byte
+   * Changes the pixel array data, hidden message length, and number of bits per data byte.
    *
-   * @param data New pixel array
-   * @param messageLength New message length
-   * @param bitsPerByte Number of bits per data byte
+   * @param data new pixel array as a {@code byte[]}
+   * @param messageLength new message length
+   * @param bitsPerByte number of bits per data byte
    */
   public void setData(byte[] data, int messageLength, int bitsPerByte) {
     if (data.length != _pixelArray.length) {
@@ -106,21 +125,24 @@ public class BmpFile {
   }
 
   /**
-   * Returns the pixel array that was read from the BMP file
+   * Returns the pixel array that was read from the BMP file.
    *
-   * @return Pixel array
-   * @implNote Function returns a copy of the pixel array
+   * <p>This function returns a copy of the pixel array of the instance.
+   *
+   * @return a {@code byte[]} with the pixel array
    */
   public byte[] getPixelArray() {
     return _pixelArray.clone();
   }
 
   /**
-   * Dumps the pixel array into the provided output file
+   * Dumps the pixel array into the provided output file.
    *
-   * @param outputFilePath Path to the output file. Must not be the same file as the input file
-   * @throws IOException Raised in case an error occurs with either the input or output file
-   * @implNote Original input file must still exist
+   * <p>Note that the original input file must still exist.
+   *
+   * @param outputFilePath a {@link String} with the path to the output file which must not be the
+   *     same file as the input file
+   * @throws IOException if an IO error occurs with either the input or output file
    */
   public void saveFile(String outputFilePath) throws IOException {
     try (FileInputStream bmpInputStream = new FileInputStream(_bmpFilePath);
@@ -155,10 +177,10 @@ public class BmpFile {
   }
 
   /**
-   * Checks whether the provided magic bytes are valid for a bitmap file
+   * Checks whether the provided magic bytes are valid for a bitmap file.
    *
-   * @param magicBytes Buffer containing the magic bytes
-   * @return True if magic is valid, false if not
+   * @param magicBytes a {@code byte[]} containing the magic bytes
+   * @return {@code true} if magic is valid, {@code false} if not
    */
   private boolean isValidMagic(byte[] magicBytes) {
     boolean validMagic = false;
@@ -174,10 +196,10 @@ public class BmpFile {
   }
 
   /**
-   * Reads and checks the file's header
+   * Reads and checks the file's header.
    *
-   * @param fileBuffer Buffer to read from
-   * @throws BmpFileException Thrown in case the function fails to read the file's header
+   * @param fileBuffer a {@link BufferedInputStream} to read from
+   * @throws BmpFileException if the function fails to read the file's header
    */
   private void readBitmapHeader(BufferedInputStream fileBuffer) throws BmpFileException {
     byte[] magicBytes = new byte[MAGIC_BYTES_LEN];
@@ -225,10 +247,10 @@ public class BmpFile {
   }
 
   /**
-   * Reads the bitmap file's pixel array
+   * Reads the bitmap file's pixel array.
    *
-   * @param fileBuffer Buffer to read from
-   * @throws BmpFileException Thrown in case the function fails to read the pixel array
+   * @param fileBuffer a {@link BufferedInputStream} to read from
+   * @throws BmpFileException if the function fails to read the pixel array
    */
   private void readPixelArray(BufferedInputStream fileBuffer) throws BmpFileException {
     try {
