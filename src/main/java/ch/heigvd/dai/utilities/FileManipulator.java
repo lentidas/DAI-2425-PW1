@@ -26,7 +26,8 @@ public class FileManipulator {
     long fileSize = this.file.length();
 
     // A byte array cannot hold more than 2ˆ31 - 1 values.
-    if (fileSize >= Integer.MAX_VALUE) throw new Exception(); // FIXME Use proper exception
+    if (fileSize >= Integer.MAX_VALUE)
+      throw new OutOfMemoryError("The message file is too big for byte[] array.");
 
     byte[] bytes = new byte[(int) fileSize];
 
@@ -43,7 +44,9 @@ public class FileManipulator {
   }
 
   public void writeBytesToFile(byte[] bytes) throws Exception, IOException {
-    if (!writeEnabled) throw new Exception(); // FIXME use proper exception
+    if (!writeEnabled)
+      throw new RuntimeException(
+          "Unable to write to file, because write operations are not activated for this object.");
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(file);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
