@@ -46,4 +46,4 @@ jobs:
           platforms: ${{ matrix.platform }}
           tags: ${{ steps.metadata_extraction.outputs.tags }}
           labels: ${{ steps.metadata_extraction.outputs.labels }}
-          push: ${{ github.event_name == 'push' && github.ref_type == 'tag' }} # Only push builded image if we push a tag
+          push: ${{ github.event_name == 'push' && github.ref_type == 'tag' }} # Only push built image if we push a tag
