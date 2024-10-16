@@ -33,10 +33,9 @@ public class FileManipulator {
 
     try (FileInputStream fileInputStream = new FileInputStream(file);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)) {
-      int pos = 0;
-      int readByte;
-      while ((readByte = bufferedInputStream.read()) != -1) {
-        bytes[pos++] = (byte) readByte;
+      int bytesRead = bufferedInputStream.read(bytes);
+      if (bytesRead != fileSize) {
+        throw new RuntimeException("Error while reading from the buffer to the byte[] array.");
       }
     }
 
@@ -50,9 +49,7 @@ public class FileManipulator {
 
     try (FileOutputStream fileOutputStream = new FileOutputStream(file);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
-      for (byte writeByte : bytes) {
-        bufferedOutputStream.write(writeByte);
-      }
+      bufferedOutputStream.write(bytes);
       bufferedOutputStream.flush();
     }
   }
