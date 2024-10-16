@@ -1,8 +1,8 @@
 package ch.heigvd.dai.commands;
 
-import ch.heigvd.dai.BmpFile;
-import ch.heigvd.dai.MessageManipulator;
+import ch.heigvd.dai.utilities.BmpFile;
 import ch.heigvd.dai.utilities.FileManipulator;
+import ch.heigvd.dai.utilities.MessageManipulator;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;

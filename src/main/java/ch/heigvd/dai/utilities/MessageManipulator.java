@@ -6,9 +6,9 @@
  * Copyright (c) 2024
  */
 
-package ch.heigvd.dai;
+package ch.heigvd.dai.utilities;
 
-import static ch.heigvd.dai.BmpFile.*;
+import static ch.heigvd.dai.utilities.BmpFile.*;
 
 import ch.heigvd.dai.exceptions.MessageManipulationException;
 

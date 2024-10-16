@@ -4,7 +4,7 @@
  * @pw 1
  * @authors Pedro Alves da Silva, Gonçalo Heleno Carvalheiro Copyright (c) 2024
  */
-package ch.heigvd.dai;
+package ch.heigvd.dai.utilities;
 
 import ch.heigvd.dai.exceptions.BmpFileException;
 import java.io.BufferedInputStream;
