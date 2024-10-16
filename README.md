@@ -75,7 +75,7 @@ Here we will show a demonstration of the `hide` and `expose` commands using the 
 
 We want to hide this small video:
 
-![Video to hide](./examples/video_to_hide.mp4)
+![Video to hide](https://github.com/user-attachments/assets/5e3d14c7-d8aa-4b4c-8539-167b9e1eb6a3)
 
 Inside this bitmap image:
 
@@ -84,7 +84,7 @@ Inside this bitmap image:
 We do that by running the following command:
 
 ```shell
-java -jar shadow-1.0.0.jar ./examples/bmp_source.bmp ./examples/video_to_hide.mp4 hide ./bmp_with_hidden_video.bmp
+java -jar shadow-1.0.0.jar ./examples/bmp_source.bmp ./examples/video_to_hide.mp4 hide ./examples/bmp_with_hidden_video.bmp
 ```
 
 This is the image we obtain:
@@ -101,7 +101,7 @@ java -jar shadow-1.0.0.jar ./examples/bmp_with_hidden_video.bmp ./examples/video
 
 And this is the video we obtained:
 
-![Video after expose](./examples/video_after_expose.mp4)
+![Video after expose](https://github.com/user-attachments/assets/44e07f68-eb69-4f2b-af17-9ae0bc8995df)
 
 Finally, we can demonstrate that the original video and the video obtained after the expose command are the same by comparing their hashes (you can also see that the hashes of the bitmap images are different):
 
