@@ -44,7 +44,8 @@ public class Hide implements Callable<Integer> {
 
   @CommandLine.Parameters(
       index = "0",
-      description = "The filename where the image with the hidden content will be stored.",
+      description =
+          "The filename where the image with the hidden content will be stored. Defaults to './output.bmp'.",
       defaultValue = "output.bmp")
   private String filenameOutput;
 
