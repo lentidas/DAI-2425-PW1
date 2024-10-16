@@ -1,5 +1,8 @@
 package ch.heigvd.dai.commands;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import picocli.CommandLine;
 
 @CommandLine.Command(
@@ -19,6 +22,19 @@ public class Root {
           "The BMP image where the content will be hidden or where to read the content from.")
   private String filenameBmpImage;
 
+  @CommandLine.Parameters(
+      index = "1",
+      description =
+          "The file where to read the message from or the file destination where to write the message to, depending on the operation mode.")
+  private String filenameMessage;
+
+  @CommandLine.Option(
+      names = {"-f", "--force"},
+      description = "Overwrite output file if something already exists in the path.")
+  private boolean force;
+
+  // TODO Remove the following block if not implemented
+  //
   //  @CommandLine.Option(
   //      names = {"-e", "--encryption-key"},
   //      description =
@@ -28,5 +44,23 @@ public class Root {
 
   public String getFilenameBmpImage() {
     return filenameBmpImage;
+  }
+
+  public String getFilenameMessage() {
+    return filenameMessage;
+  }
+
+  public boolean forceDisabled() {
+    return !force;
+  }
+
+  public boolean isBmpFileValid() {
+    Path path = Paths.get(filenameBmpImage);
+    return Files.exists(path) && !Files.isDirectory(path);
+  }
+
+  public boolean isMessageFileValid() {
+    Path path = Paths.get(filenameMessage);
+    return Files.exists(path) && !Files.isDirectory(path);
   }
 }
