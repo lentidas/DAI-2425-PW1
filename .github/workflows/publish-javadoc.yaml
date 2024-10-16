@@ -1,0 +1,20 @@
+name: "publish-javadoc"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-javadoc:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy JavaDoc documentation
+      uses: MathieuSoysal/Javadoc-publisher.yml@main
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        javadoc-branch: javadoc
+        java-version: 17
+        project: maven
+        javadoc-source-folder: .
+        custom-command: javadoc -d . -private -sourcepath src/main/java/ch/heigvd/dai -subpackages commands -subpackages exceptions -subpackages utilities
