@@ -34,7 +34,7 @@ import picocli.CommandLine;
  */
 @CommandLine.Command(
     description = "shadow - a CLI tool to hide files inside BMP images",
-    version = "0.0.1",
+    version = "0.0.1", // x-release-please-version
     subcommands = {
       Hide.class,
       Expose.class,
