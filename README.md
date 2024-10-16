@@ -73,11 +73,11 @@ java -jar shadow-1.0.0.jar <path-to-bitmap-image-with-hidden-file> <path-to-outp
 
 Here we will show a demonstration of the `hide` and `expose` commands using the files available in the [`examples`](./examples/) directory.
 
-We want to hide this small video:
+We want to hide this small video ([_source_](https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_5mb.mp4)):
 
 ![Video to hide](https://github.com/user-attachments/assets/5e3d14c7-d8aa-4b4c-8539-167b9e1eb6a3)
 
-Inside this bitmap image:
+Inside this bitmap image (_photo taken by one of the authors_):
 
 ![Bitmap image](./examples/bmp_source.bmp)
 
