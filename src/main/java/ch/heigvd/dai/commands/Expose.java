@@ -1,3 +1,21 @@
+/*
+ * shadow - a CLI tool to hide files inside BMP images
+ * Copyright (C) 2024 Pedro Alves da Silva, Gonçalo Carvalheiro Heleno
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package ch.heigvd.dai.commands;
 
 import ch.heigvd.dai.utilities.BmpFile;
@@ -8,12 +26,30 @@ import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
+/**
+ * Implements the {@code hide} subcommand for executing the program on a CLI.
+ *
+ * <p>This class defines the parameters and options that are only specific for this subcommand. For
+ * checking the usage of the subcommand, use the {@code --help} option.
+ *
+ * @author Pedro Alves da Silva
+ * @author Gonçalo Carvalheiro Heleno
+ */
 @CommandLine.Command(
     name = "expose",
     description = "Expose an hidden file/message from a BMP image.")
 public class Expose implements Callable<Integer> {
+
   @CommandLine.ParentCommand private Root parent;
 
+  /**
+   * Call function that contains the logic of the subcommand.
+   *
+   * <p>This function performs the multiple input validation checks and outputs an exit code
+   * accordingly. An error message is displayed to explain why the command failed.
+   *
+   * @return exit code 1 if there was an error, 0 otherwise
+   */
   @Override
   public Integer call() {
     if (Files.exists(Paths.get(parent.getFilenameMessage()))) {

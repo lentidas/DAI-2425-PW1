@@ -1,9 +1,19 @@
 /*
- * @brief   Class provides functions to manipulate messages, whether it means hiding or exposing it
- * @class   DAI
- * @pw      1
- * @authors Pedro Alves da Silva, Gonçalo Heleno Carvalheiro
- * Copyright (c) 2024
+ * shadow - a CLI tool to hide files inside BMP images
+ * Copyright (C) 2024 Pedro Alves da Silva, Gonçalo Carvalheiro Heleno
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package ch.heigvd.dai.utilities;
@@ -12,16 +22,25 @@ import static ch.heigvd.dai.utilities.BmpFile.*;
 
 import ch.heigvd.dai.exceptions.MessageManipulationException;
 
+/**
+ * Implements the logic necessary to hide and expose an array of bytes inside a bitmap image, which
+ * is itself parsed using the {@link BmpFile} class.
+ *
+ * @author Pedro Alves da Silva
+ * @author Gonçalo Carvalheiro Heleno
+ */
 public class MessageManipulator {
+
   /**
-   * Hides a provided message inside the provided data array
+   * Hides a provided message inside the provided data array.
    *
-   * @param bmpFile Parsed bitmap file instance
-   * @param message Message to hide
-   * @param bitsPerByte Number of bits to use per message byte
-   * @throws MessageManipulationException Raised in case one of the arguments is not valid
-   * @implNote Data array is used as input and output. Each of the (bitsPerByte) LSb of each byte in
-   *     data are replaced
+   * <p>Data array is used as input and output. Each of the (bitsPerByte) LSb of each byte in data
+   * are replaced.
+   *
+   * @param bmpFile the parsed bitmap file from a {@link BmpFile} instance
+   * @param message the message to hide
+   * @param bitsPerByte the number of bits to use per message byte
+   * @throws MessageManipulationException if one of the arguments is not valid
    */
   public void hideMessage(BmpFile bmpFile, byte[] message, int bitsPerByte)
       throws MessageManipulationException {
@@ -58,13 +77,14 @@ public class MessageManipulator {
   }
 
   /**
-   * Extracts a hidden message from the provided data array
+   * Extracts a hidden message from the provided data array.
    *
-   * @param bmpFile Parsed bitmap file instance
-   * @param message Message extracted
-   * @throws MessageManipulationException Raised in case one of the arguments is not valid
-   * @implNote Data array is used as input and output. Each of the (bitsPerByte) LSb of each byte in
-   *     data are set to 0
+   * <p>Data array is used as input and output. Each of the (bitsPerByte) LSb of each byte in data
+   * are set to 0.
+   *
+   * @param bmpFile the parsed bitmap file from a {@link BmpFile} instance
+   * @param message a byte array where the extracted message will be extracted to
+   * @throws MessageManipulationException if one of the arguments is not valid
    */
   public void exposeMessage(BmpFile bmpFile, byte[] message) throws MessageManipulationException {
     int bitsPerByte = bmpFile.getBitsPerByte();
