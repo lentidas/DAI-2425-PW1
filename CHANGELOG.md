@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.0...v0.1.1) (2024-10-17)
+
+
+### Continuous Integration
+
+* only generate documentation when there is a release ([33260be](https://github.com/lentidas/DAI-2425-PW1/commit/33260bee01aae850a23ec860fbdb1ce986925217))
+* use PAT token in order to trigger Docker build ([2fe3026](https://github.com/lentidas/DAI-2425-PW1/commit/2fe3026b08d54492304f6d04f2bf42c9d00db0f2))
+
 ## [0.1.0](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.0...v0.1.0) (2024-10-17)
 
 
