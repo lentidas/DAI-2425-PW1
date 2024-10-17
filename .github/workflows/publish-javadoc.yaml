@@ -2,7 +2,7 @@ name: "publish-javadoc"
 
 on:
   push:
-    branch:
+    branches:
       - main
 
 jobs:
