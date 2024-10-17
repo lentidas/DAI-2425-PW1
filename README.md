@@ -144,7 +144,7 @@ The documentation of the Java code of our program is published as a GitHub pages
 
 ## Contributing
 
-You are welcome to contribute and improve this project. Bellow you will find some guidelines to help you get started.
+You are welcome to contribute and improve this project. Below you will find some guidelines to help you get started.
 
 - We try to follow the Semantic Versioning guidelines as much as possible. You can find more information about it [here](https://semver.org/).
 - The releases for this project are automated using [Release Please](https://github.com/googleapis/release-please-action).
