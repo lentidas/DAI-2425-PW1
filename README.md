@@ -1,7 +1,7 @@
 # shadow 🖼
 
 ![Release](https://img.shields.io/github/v/release/lentidas/DAI-2425-PW1?style=for-the-badge) ![License](https://img.shields.io/github/license/lentidas/DAI-2425-PW1?style=for-the-badge)
- ![Build Status](https://img.shields.io/github/actions/workflow/status/lentidas/DAI-2425-PW1/build.yaml?style=for-the-badge)
+ ![Docker Build](https://img.shields.io/github/actions/workflow/status/lentidas/DAI-2425-PW1/builder.yaml?style=for-the-badge&logo=docker&label=Docker%20Build)
 
 A Java CLI application that allows you to hide and retrieve files hidden in bitmap images 🖼.
 
