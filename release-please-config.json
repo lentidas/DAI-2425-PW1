@@ -5,7 +5,7 @@
       "extra-files": [
         {
           "type": "generic",
-          "path": "./src/main/java/ch/heigvd/dai/commands/Root.java"
+          "path": "src/main/java/ch/heigvd/dai/commands/Root.java"
         }
       ],
       "include-v-in-tag": true,
