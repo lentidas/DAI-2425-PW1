@@ -23,5 +23,12 @@
   "include-v-in-tag": true,
   "include-component-in-tag": false,
   "pull-request-title-pattern": "chore: release ${version}",
-  "extra-files": ["src/main/java/ch/heigvd/dai/commands/Root.java"]
+  "extra-files": [
+    {
+      "type": "generic",
+      "path": "src/main/java/ch/heigvd/dai/commands/Root.java"
+    }
+  ],
+  "label": "autorelease-pending",
+  "release-label": "autorelease-tagged"
 }
