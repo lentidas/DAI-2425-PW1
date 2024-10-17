@@ -1,9 +1,16 @@
-# shadow 🖼
+<p align="center" style="margin-bottom: 0px !important;">
+  <img width="200" src="logo.webp" alt="Shadow logo" align="center">
+</p>
+<h1 align="center" style="margin-top: 0px;">shadow</h1>
+
+<p align="center" >Java CLI tool to hide files inside BMP images</p>
+
+<div align="center" >
 
 ![Release](https://img.shields.io/github/v/release/lentidas/DAI-2425-PW1?style=for-the-badge) ![License](https://img.shields.io/github/license/lentidas/DAI-2425-PW1?style=for-the-badge)
  ![Docker Build](https://img.shields.io/github/actions/workflow/status/lentidas/DAI-2425-PW1/builder.yaml?style=for-the-badge&logo=docker&label=Docker%20Build)
 
-A Java CLI application that allows you to hide and retrieve files hidden in bitmap images 🖼.
+</div>
 
 > [!NOTE]
 > This program was written as our first practical work during the [DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course/tree/main) of 2024 at the [HEIG-VD](https://heig-vd.ch).
@@ -12,6 +19,19 @@ A Java CLI application that allows you to hide and retrieve files hidden in bitm
 
 - Pedro Alves da Silva ([@PedroAS7](https://github.com/PedroAS7))
 - Gonçalo Carvalheiro Heleno ([@lentidas](https://github.com/lentidas))
+
+## Table of Contents
+
+- [Authors](#authors)
+- [Table of Contents](#table-of-contents)
+- [Usage](#usage)
+  - [`hide`](#hide)
+  - [`expose`](#expose)
+  - [Run with Docker](#run-with-docker)
+- [Demonstration](#demonstration)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+  - [Clone and build the project](#clone-and-build-the-project)
 
 ## Usage
 
@@ -70,7 +90,7 @@ java -jar shadow-1.0.0.jar <path-to-bitmap-image-with-hidden-file> <path-to-outp
 > [!WARNING]
 > Since the storage of the bits of an hidden file overwrites the original bits of the image, the retrieval of the hidden file will set the bits of the image to 0 and not their original value.
 
-### Docker
+### Run with Docker
 
 You can also use our CLI app using the provided Docker image. To do that, you can run the following commands:
 
@@ -85,7 +105,7 @@ docker run --mount type=bind,source="$(pwd)",target=/data <path-to-bitmap-image>
 docker run --mount type=bind,source="$(pwd)",target=/data ghcr.io/lentidas/dai-2425-pw1:latest <path-to-bitmap-image-with-hidden-file> <path-to-output-file> expose
 ```
 
-The following commands are equivalent to the ones shown on the demonstration section:
+The following commands are equivalent to the ones shown on the [demonstration](#demonstration) section:
 
 ```shell
 docker run --mount type=bind,source="$(pwd)/examples",target=/data ghcr.io/lentidas/dai-2425-pw1:latest bmp_source.bmp video_to_hide.mp4 hide bmp_with_hidden_video.bmp
