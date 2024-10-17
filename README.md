@@ -149,6 +149,7 @@ You are welcome to contribute and improve this project. Bellow you will find som
 - We try to follow the Semantic Versioning guidelines as much as possible. You can find more information about it [here](https://semver.org/).
 - The releases for this project are automated using [Release Please](https://github.com/googleapis/release-please-action).
 - As a consequence of the previous 2 points, we use the Conventional Commits specification for our commit messages. You can find more information about it [here](https://www.conventionalcommits.org/).
+- We license our code under the GNU General Public License v3.0. You can find it [here](./LICENSE.txt). A copyright header template for the source files is provide [here](./.idea/copyright/DAI_PW1_GNUv3.xml).
 
 ### Clone and build the project
 
