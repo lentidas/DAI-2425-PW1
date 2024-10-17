@@ -65,9 +65,33 @@ java -jar shadow-1.0.0.jar <path-to-bitmap-image-with-hidden-file> <path-to-outp
 ```
 
 > [!IMPORTANT]
+> The program does not store the file extension of the hidden file. Therefore, you must provide the correct file extension when retrieving the hidden file in order to be able to open it correctly.
+
+> [!WARNING]
 > Since the storage of the bits of an hidden file overwrites the original bits of the image, the retrieval of the hidden file will set the bits of the image to 0 and not their original value.
 
-<!-- TODO Add Docker examples after first release -->
+### Docker
+
+You can also use our CLI app using the provided Docker image. To do that, you can run the following commands:
+
+```shell
+# Pull the image from Docker Hub.
+docker pull ghcr.io/lentidas/dai-2425-pw1:latest
+
+# Run the image with the desired command while mounting the current directory to the /data directory inside the container.
+# This command hides the file <path-to-file-to-hide> inside the bitmap image <path-to-bitmap-image> and saves the result in <path-to-output-bmp-image>.
+docker run --mount type=bind,source="$(pwd)",target=/data <path-to-bitmap-image> <path-to-file-to-hide> hide <path-to-output-bmp-image>
+# This command retrieves the hidden file from the bitmap image <path-to-bitmap-image-with-hidden-file> and saves it in <path-to-output-file>.
+docker run --mount type=bind,source="$(pwd)",target=/data ghcr.io/lentidas/dai-2425-pw1:latest <path-to-bitmap-image-with-hidden-file> <path-to-output-file> expose
+```
+
+The following commands are equivalent to the ones shown on the demonstration section:
+
+```shell
+docker run --mount type=bind,source="$(pwd)/examples",target=/data ghcr.io/lentidas/dai-2425-pw1:latest bmp_source.bmp video_to_hide.mp4 hide bmp_with_hidden_video.bmp
+
+docker run --mount type=bind,source="$(pwd)/examples",target=/data ghcr.io/lentidas/dai-2425-pw1:latest bmp_with_hidden_video.bmp video_after_expose.mp4 expose
+```
 
 ## Demonstration
 
@@ -116,9 +140,40 @@ SHA2-256(./examples/video_to_hide.mp4)= 771965e3f757c3861cc5a02f454c17b52c128a45
 
 ## Documentation
 
-// TODO Point to the Javadoc documentation \
+The documentation of the Java code of our program is published as a GitHub pages alongside this repository [on this address](https://lentidas.github.io/DAI-2425-PW1/).
 
 ## Contributing
 
-// TODO Explain the release process \
-// TODO Explain the Conventional commits \
+You are welcome to contribute and improve this project. Bellow you will find some guidelines to help you get started.
+
+- We try to follow the Semantic Versioning guidelines as much as possible. You can find more information about it [here](https://semver.org/).
+- The releases for this project are automated using [Release Please](https://github.com/googleapis/release-please-action).
+- As a consequence of the previous 2 points, we use the Conventional Commits specification for our commit messages. You can find more information about it [here](https://www.conventionalcommits.org/).
+
+### Clone and build the project
+
+We use [Maven](https://maven.apache.org/) to manage our project. The Maven wrapper is versioned alongside with the rest of the code, as well as some project configurations for [IntelliJ IDEA from Jetbrains](https://www.jetbrains.com/idea/). These project files contain run configurations that you can use to run the program from the IDE.
+
+To clone and build the project on the command line, you can use the following commands:
+
+```shell
+# Clone the repository.
+git clone https://github.com/lentidas/DAI-2425-PW1.git
+
+# Change to the project directory.
+cd DAI-2425-PW1
+
+# Modify the code as you wish.
+
+# Check that the code is well formatted...
+./mvnw spotless:check
+
+# ...and eventually format it.
+./mvnw spotless:apply
+
+# Build the project with the dependencies.
+./mvnw dependency:go-offline clean compile package
+
+# Run the program (do not forget to adjust the version accordingly).
+java -jar target/shadow-1.0.0.jar --help
+```
