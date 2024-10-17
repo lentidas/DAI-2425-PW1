@@ -5,12 +5,12 @@
       "extra-files": [
         {
           "type": "generic",
-          "path": "./src/main/java/ch/heigvd/dai/commands/Root.java"
+          "path": "src/main/java/ch/heigvd/dai/commands/Root.java"
         }
       ],
       "include-v-in-tag": true,
       "include-component-in-tag": false,
-      "pull-request-title-pattern": "chore: release ${version}"
+      "pull-request-title-pattern": "chore: release ${version}",
       "label": "autorelease-pending",
       "release-label": "autorelease-tagged",
       "bump-minor-pre-major": true,
