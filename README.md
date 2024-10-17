@@ -135,7 +135,7 @@ This is the image we obtain:
 
 ![Bitmap image with hidden video](./examples/bmp_with_hidden_video.bmp)
 
-As you can see, the image looks the same as the original one. However, it now contains the hidden video!
+To the naked eye, the image looks the same as the original one. However, it now contains the hidden video!
 
 We then recovered the video with the following command:
 
