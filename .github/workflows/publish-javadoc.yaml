@@ -2,8 +2,8 @@ name: "publish-javadoc"
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   generate-javadoc:
