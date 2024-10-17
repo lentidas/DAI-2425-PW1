@@ -30,18 +30,22 @@ jobs:
     if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     steps:
       - name: "Check out the repository"
+        if: ${{ needs.release-please.outputs.releases_created }}
         uses: actions/checkout@v4
 
       - name: "Setup Java and Maven"
+        if: ${{ needs.release-please.outputs.releases_created }}
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: "Package JAR using Maven wrapper"
+        if: ${{ needs.release-please.outputs.releases_created }}
         run: ./mvnw dependency:go-offline clean compile package
 
       - name: "Upload Release Artifact"
+        if: ${{ needs.release-please.outputs.releases_created }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload ${{ needs.release-please.outputs.tag_name }} ./target/shadow-${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}.jar

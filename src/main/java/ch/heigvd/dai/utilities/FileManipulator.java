@@ -103,7 +103,7 @@ public class FileManipulator {
     if (!writeEnabled)
       throw new RuntimeException(
           "Unable to write to file, because write operations are not activated for this object.");
-          
+
     try (FileOutputStream fileOutputStream = new FileOutputStream(file);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream)) {
       bufferedOutputStream.write(bytes);
