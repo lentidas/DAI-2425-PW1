@@ -1,11 +1,15 @@
 {
   "packages": {
     ".": {
-      "release-type": "maven",
+      "release-type": "simple",
       "extra-files": [
         {
           "type": "generic",
           "path": "src/main/java/ch/heigvd/dai/commands/Root.java"
+        },
+        {
+          "type": "pom",
+          "path": "pom.xml"
         }
       ],
       "include-v-in-tag": true,
