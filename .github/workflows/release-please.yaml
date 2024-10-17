@@ -20,3 +20,25 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: maven
+
+  upload-release-artifact:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{ needs.release-please.outputs.releases_created }}
+    steps:
+      - name: "Check out the repository"
+        uses: actions/checkout@v4
+
+      - name: "Setup Java and Maven"
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: "Package JAR using Maven wrapper"
+        run: ./mvnw dependency:go-offline clean compile package
+
+      - name: "Upload Release Artifact"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ steps.release-please.outputs.tag_name }} ./target/shadow-${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }}.jar
