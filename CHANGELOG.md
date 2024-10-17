@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.2](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.1...v0.1.2) (2024-10-17)
+
+
+### Continuous Integration
+
+* change name of Docker image and fix badge ([#34](https://github.com/lentidas/DAI-2425-PW1/issues/34)) ([1f8792c](https://github.com/lentidas/DAI-2425-PW1/commit/1f8792c53a5bd8a13f5c4f8ca6fc2cbc38aec648))
+* fix typo in trigger ([#37](https://github.com/lentidas/DAI-2425-PW1/issues/37)) ([59a8e5d](https://github.com/lentidas/DAI-2425-PW1/commit/59a8e5d8a935e1253ef02aafc07aa7a2e6c5a4ce))
+* revert trigger because GH pages does not like the tag ([#36](https://github.com/lentidas/DAI-2425-PW1/issues/36)) ([d7cebe7](https://github.com/lentidas/DAI-2425-PW1/commit/d7cebe7c087d63f639ca0d777e11677f0a08a56d))
+
 ## [0.1.1](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.0...v0.1.1) (2024-10-17)
 
 
