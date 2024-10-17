@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.3...v1.0.0) (2024-10-17)
+
+
+### Documentation
+
+* finished the complete version of the README.md ([#40](https://github.com/lentidas/DAI-2425-PW1/issues/40)) ([8ef2514](https://github.com/lentidas/DAI-2425-PW1/commit/8ef251439256d44bcf35a2f2da83b8b8c1d602a0))
+
 ## [0.1.3](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.2...v0.1.3) (2024-10-17)
 
 
