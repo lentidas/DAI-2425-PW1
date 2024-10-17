@@ -4,7 +4,7 @@
 
   <groupId>ch.heigvd.dai</groupId>
   <artifactId>shadow</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3</version>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>

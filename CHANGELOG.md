@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.2...v0.1.3) (2024-10-17)
+
+
+### Continuous Integration
+
+* revert to old repo name (GH requires it) ([#38](https://github.com/lentidas/DAI-2425-PW1/issues/38)) ([613cd6a](https://github.com/lentidas/DAI-2425-PW1/commit/613cd6a0af88482ff80196800692f58cea36b4ba))
+
 ## [0.1.2](https://github.com/lentidas/DAI-2425-PW1/compare/v0.1.1...v0.1.2) (2024-10-17)
 
 
